@@ -1,7 +1,4 @@
 {
-  "projectSettings": {
-    "framework": "react-router"
-  },
   "builds": [
     {
       "src": "react-router.config.ts",
@@ -11,7 +8,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "apps/web"
+      "dest": "/"
     }
   ]
 }
