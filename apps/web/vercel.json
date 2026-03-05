@@ -1,0 +1,17 @@
+{
+  "projectSettings": {
+    "framework": "react-router"
+  },
+  "builds": [
+    {
+      "src": "react-router.config.ts",
+      "use": "@vercel/react-router"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "apps/web"
+    }
+  ]
+}
