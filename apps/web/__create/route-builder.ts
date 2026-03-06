@@ -9,7 +9,11 @@ const API_BASENAME = '/api';
 const api = new Hono();
 
 // Get current directory
-const __dirname = join(fileURLToPath(new URL('.', import.meta.url)), '../src/app/api');
+// In dev: __create/../src/app/api. In prod: build/server/assets/../../../src/app/api won't exist,
+// so we fall back gracefully via the .catch([]) in registerRoutes.
+const __dirname = import.meta.env.DEV
+  ? join(fileURLToPath(new URL('.', import.meta.url)), '../src/app/api')
+  : join(fileURLToPath(new URL('.', import.meta.url)), '../../../src/app/api');
 if (globalThis.fetch) {
   globalThis.fetch = updatedFetch;
 }
@@ -66,8 +70,8 @@ function getHonoPath(routeFile: string): { name: string; pattern: string }[] {
 // Import and register all routes
 async function registerRoutes() {
   const routeFiles = (
-    await findRouteFiles(__dirname).catch((error) => {
-      console.error('Error finding route files:', error);
+    await findRouteFiles(__dirname).catch(() => {
+      // In production, source files are not present — this is expected
       return [];
     })
   )
